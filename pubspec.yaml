@@ -1,6 +1,7 @@
 name: fengwuxp_dart_basic
-description: dart flutter项目的一些基础支持，json序列化、工具类等
 version: 0.0.1
+description: >
+   dart flutter项目的一些基础支持，json序列化、工具类等
 author: fengwuxp
 homepage: https://github.com/fengwuxp/fengwuxp_dart_basic
 
