@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:built_value/serializer.dart';
+import 'package:fengwuxp_dart_basic/index.dart';
 import 'package:fengwuxp_dart_basic/src/utils/string_utils.dart';
 
 class BuiltJsonSerializers {
@@ -29,6 +30,9 @@ class BuiltJsonSerializers {
       return null;
     }
     if (serializer == null) {
+      if (object is JsonSerializableObject) {
+        return object.toJson();
+      }
       return jsonEncode(object);
     }
     return jsonEncode(this._serializers.serializeWith(serializer, object));
