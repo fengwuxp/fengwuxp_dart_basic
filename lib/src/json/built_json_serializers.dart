@@ -7,10 +7,10 @@ import 'package:fengwuxp_dart_basic/src/utils/string_utils.dart';
 class BuiltJsonSerializers {
   Serializers _serializers;
 
-  BuiltJsonSerializers(this._serializers);
+  BuiltJsonSerializers._(this._serializers);
 
-  factory(Serializers serializers) {
-    return new BuiltJsonSerializers(serializers);
+  factory BuiltJsonSerializers(Serializers serializers) {
+    return BuiltJsonSerializers._(serializers);
   }
 
   /// parse json text to object
@@ -19,8 +19,7 @@ class BuiltJsonSerializers {
   /// [formJson]    自定义的formJson 工厂方法
   /// [specifiedType]    FullType 存在泛型是需要
   /// 泛型支持需要 [SerializersBuilder.addBuilderFactory]
-  T parseObject<T>(String jsonText,
-      {Serializer<T> serializer, Function formJson, FullType specifiedType = FullType.unspecified}) {
+  T parseObject<T>(String jsonText, {Serializer<T> serializer, Function formJson, FullType specifiedType}) {
     if (!StringUtils.hasText(jsonText)) {
       return null;
     }
@@ -34,7 +33,11 @@ class BuiltJsonSerializers {
       return result;
     }
 
-    if (serializer is StructuredSerializer) {
+    // 需要使用泛型
+    final isGeneric =
+        serializer is StructuredSerializer && specifiedType != null && specifiedType != FullType.unspecified;
+    if (isGeneric) {
+      // 泛型支持
       Map data = json.decode(jsonText);
       var list = [];
       data.forEach((key, val) {
@@ -51,7 +54,7 @@ class BuiltJsonSerializers {
   /// [object] serialize object
   /// [serializer] built serializer
   /// [specifiedType]
-  String toJson<T>(object, {Serializer<T> serializer, FullType specifiedType = FullType.unspecified}) {
+  String toJson<T>(object, {Serializer<T> serializer, FullType specifiedType}) {
     if (object == null) {
       return null;
     }
@@ -62,7 +65,14 @@ class BuiltJsonSerializers {
       }
       return jsonEncode(object);
     }
-    if (serializer is StructuredSerializer) {
+    // 需要使用泛型
+    final isGeneric =
+        serializer is StructuredSerializer && specifiedType != null && specifiedType != FullType.unspecified;
+    if (isGeneric) {
+      // 泛型支持
+      if (specifiedType == null) {
+        specifiedType = FullType.unspecified;
+      }
       var result =
           (serializer as StructuredSerializer).serialize(this._serializers, object, specifiedType: specifiedType);
       final iterator = result.iterator;
