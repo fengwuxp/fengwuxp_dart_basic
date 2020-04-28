@@ -30,6 +30,9 @@ class BuiltJsonSerializers {
 
     var result = jsonDecode(jsonText);
     if (serializer == null) {
+      if (specifiedType != null) {
+        this._serializers.deserialize(result, specifiedType: specifiedType);
+      }
       return result;
     }
 
@@ -74,7 +77,7 @@ class BuiltJsonSerializers {
         specifiedType = FullType.unspecified;
       }
       var result =
-          (serializer as StructuredSerializer).serialize(this._serializers, object, specifiedType: specifiedType);
+      (serializer as StructuredSerializer).serialize(this._serializers, object, specifiedType: specifiedType);
       final iterator = result.iterator;
       final map = {};
       while (iterator.moveNext()) {
