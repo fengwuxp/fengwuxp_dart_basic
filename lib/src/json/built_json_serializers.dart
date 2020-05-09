@@ -30,7 +30,7 @@ class BuiltJsonSerializers {
 
     var result = jsonDecode(jsonText);
     if (serializer == null) {
-      if (specifiedType != null) {
+      if (specifiedType != null && specifiedType != FullType.unspecified && specifiedType != FullType.object) {
         return this._serializers.deserialize(result, specifiedType: specifiedType);
       }
       return result;

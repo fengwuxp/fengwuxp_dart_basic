@@ -1,31 +1,38 @@
 // 查询字符串解析
+import 'dart:convert';
+
 class QueryStringParser {
   static final SEP = '&';
   static final EQ = '=';
   static final QUERY_TRING_SEP = '?';
 
   //  Parses the given query string into a Map.
-  static Map<String, dynamic> parse(String query, {bool filterNoneValue = true}) {
+  static Map<String, dynamic> parse(String query,
+      {bool filterNoneValue = true, bool needDecode = false, Encoding encoding = utf8}) {
     var search = new RegExp('([^&=]+)=?([^&]*)');
     var result = new Map<String, dynamic>();
 
     if (query == null || query.trim().length == 0) {
       return Map.from({});
     }
-
+    if (needDecode) {
+      query = Uri.decodeQueryComponent(query, encoding: encoding);
+    }
     // Get rid off the beginning ? in query strings.
-    if (query.startsWith(QueryStringParser.QUERY_TRING_SEP)) query = query.substring(1);
+    if (query.startsWith(QueryStringParser.QUERY_TRING_SEP)) {
+      query = query.substring(1);
+    }
 
     // A custom decoder.
-    decode(String s) => Uri.decodeComponent(s.replaceAll('+', ' '));
+//    decode(String s) => Uri.decodeQueryComponent(s.replaceAll('+', ' '),encoding: encoding);
 
     // Go through all the matches and build the result map.
     for (Match match in search.allMatches(query)) {
-      var value = decode(match.group(2));
+      var value = match.group(2);
       if (value.trim().length == 0 && filterNoneValue) {
         continue;
       }
-      var key = decode(match.group(1));
+      var key = match.group(1);
       var item = result[key];
       if (item != null) {
         // if value exist ,converter to List
@@ -42,16 +49,16 @@ class QueryStringParser {
     return result;
   }
 
-  static String stringify(Map queryParams, {bool filterNoneValue = true}) {
+  static String stringify(Map queryParams, {bool filterNoneValue = true, Encoding encoding = utf8}) {
     StringBuffer queryString = StringBuffer();
     queryParams.forEach((key, val) {
-      _writeStringify(queryString, key, val, filterNoneValue);
+      _writeStringify(queryString, Uri.encodeQueryComponent(key, encoding: encoding), val, filterNoneValue, encoding);
     });
 
     return queryString.toString().substring(1, queryString.length);
   }
 
-  static void _writeStringify(StringBuffer queryString, String key, val, bool filterNoneValue) {
+  static void _writeStringify(StringBuffer queryString, String key, val, bool filterNoneValue, Encoding encoding) {
     if (val == null && filterNoneValue) {
       return;
     }
@@ -62,11 +69,11 @@ class QueryStringParser {
     }
     if (val is List) {
       val.forEach((item) {
-        _writeStringify(queryString, key, item, filterNoneValue);
+        _writeStringify(queryString, key, item, filterNoneValue, encoding);
       });
     } else {
       queryString.write(QueryStringParser.SEP);
-      queryString.write("$key${QueryStringParser.EQ}${val}");
+      queryString.write("$key${QueryStringParser.EQ}${Uri.encodeQueryComponent(val, encoding: encoding)}");
     }
   }
 }
