@@ -73,7 +73,11 @@ class QueryStringParser {
       });
     } else {
       queryString.write(QueryStringParser.SEP);
-      queryString.write("$key${QueryStringParser.EQ}${Uri.encodeQueryComponent(val, encoding: encoding)}");
+      if (val is String) {
+        queryString.write("$key${QueryStringParser.EQ}${Uri.encodeQueryComponent(val, encoding: encoding)}");
+      } else {
+        queryString.write("$key${QueryStringParser.EQ}$val");
+      }
     }
   }
 }
