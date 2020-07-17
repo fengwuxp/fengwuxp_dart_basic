@@ -36,6 +36,7 @@ void main() {
 
     var builtJsonSerializers = BuiltJsonSerializers(serializers);
     var parseObject = builtJsonSerializers.parseObject(jsonText, serializer: Hello.serializer);
+     parseObject = builtJsonSerializers.parseObject(json.decode(jsonText), serializer: Hello.serializer);
     print("===> $parseObject");
     var toJson = builtJsonSerializers.toJson(parseObject, serializer: Hello.serializer);
     print("===> $toJson");
