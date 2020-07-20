@@ -36,7 +36,7 @@ class BuiltJsonSerializers {
       return formJson(source);
     }
 
-    final result = isStringType ? json.decode(source) : source;
+    final result = source; //isStringType ? json.decode(source) : source;
     if (serializer == null) {
       if (specifiedType != null && specifiedType != FullType.unspecified && specifiedType != FullType.object) {
         return this._serializers.deserialize(result, specifiedType: specifiedType);
