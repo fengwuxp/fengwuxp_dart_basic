@@ -49,7 +49,11 @@ class QueryStringParser {
     return result;
   }
 
+  /// if [queryParams] params is null or empty return null
   static String stringify(Map queryParams, {bool filterNoneValue = true, Encoding encoding = utf8}) {
+    if (queryParams == null || queryParams.isEmpty) {
+      return null;
+    }
     StringBuffer queryString = StringBuffer();
     queryParams.forEach((key, val) {
       _writeStringify(queryString, Uri.encodeQueryComponent(key, encoding: encoding), val, filterNoneValue, encoding);
