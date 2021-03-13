@@ -7,7 +7,7 @@ import 'hello/hello.dart';
 import 'serializers.dart';
 
 void main() {
-  test('test json serizable', () {
+  test('test json serialize', () {
     String jsonText = '''
  {
       "id": 157538,
