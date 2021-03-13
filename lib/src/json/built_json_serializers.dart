@@ -59,7 +59,7 @@ class BuiltJsonSerializers {
       return (serializer as StructuredSerializer).deserialize(this._serializers, list, specifiedType: specifiedType);
     }
 
-    return this._serializers.deserializeWith(serializer, result);
+    return this._serializers.deserializeWith(serializer, isStringType ? json.decode(source) : source);
   }
 
   /// object to string
