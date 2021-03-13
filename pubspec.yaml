@@ -11,18 +11,16 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  built_collection: ^5.0.0
-  built_value: ^8.0.2
+  dart_json_mapper:
+  dart_json_mapper_flutter:
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   test: ^1.0.0
-  build_runner: any
-  build_test: any
+  build_runner:
   # If you need to run web tests, you will also need this dependency.
   #  build_web_compilers: any
-  built_value_generator: ^8.0.2
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
