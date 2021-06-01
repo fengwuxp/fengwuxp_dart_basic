@@ -25,20 +25,20 @@ void main() {
     }
     ''';
 
-    var hello = serializers.deserializeWith(Hello.serializer, jsonDecode(jsonText));
+    final hello = serializers.deserializeWith(Hello.serializer, jsonDecode(jsonText));
 
     print("==>${hello.id}");
-    var _h = serializers.serializeWith(Hello.serializer, hello);
+    final _h = serializers.serializeWith(Hello.serializer, hello);
     print(json.encode(_h));
 
-    var formJson = Hello.formJson(jsonText);
+    final formJson = Hello.formJson(jsonText);
     print(formJson.toJson());
 
-    var builtJsonSerializers = BuiltJsonSerializers(serializers);
-    var parseObject = builtJsonSerializers.parseObject(jsonText, serializer: Hello.serializer);
-     parseObject = builtJsonSerializers.parseObject(json.decode(jsonText), serializer: Hello.serializer);
-    print("===> $parseObject");
-    var toJson = builtJsonSerializers.toJson(parseObject, serializer: Hello.serializer);
-    print("===> $toJson");
+    final builtJsonSerializers = BuiltJsonSerializers(serializers);
+    var result = builtJsonSerializers.parseObject(jsonText, serializer: Hello.serializer);
+    result = builtJsonSerializers.parseObject(json.decode(jsonText), serializer: Hello.serializer);
+    print("===> $result");
+    var text = builtJsonSerializers.toJson(result, serializer: Hello.serializer);
+    print("===> $text");
   });
 }

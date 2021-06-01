@@ -15,51 +15,37 @@ class BuiltJsonSerializers {
     return BuiltJsonSerializers._(serializers);
   }
 
-  /// parse json text or [Map] or [List] or [Set] to object
+  /// parse json [String] or [Map] or [List] or [Set] to object
   /// [source] type [String] or  [Map] or [List] or [Set]
   /// [serializer]  类型 serializer
   /// [formJson]    自定义的formJson 工厂方法
   /// [specifiedType]    FullType 存在泛型是需要
   /// 泛型支持需要 [SerializersBuilder.addBuilderFactory]
   T parseObject<T>(dynamic source, {Serializer<T> serializer, Function formJson, FullType specifiedType}) {
-    if (source == null) {
+    if (_isEmpty(source)) {
       return null;
     }
 
-    var isStringType = source is String;
-    if (isStringType && !StringUtils.hasText(source)) {
-      return null;
-    }
+    final json = _tryDecode(source);
 
     if (formJson != null) {
       // 自定义的fromJson方法
-      return formJson(source);
+      return formJson(json);
     }
 
-    final result = source; //isStringType ? json.decode(source) : source;
     if (serializer == null) {
-      if (specifiedType != null && specifiedType != FullType.unspecified && specifiedType != FullType.object) {
-        return this._serializers.deserialize(result, specifiedType: specifiedType);
+      if (_isSpecifiedType(specifiedType)) {
+        return this._serializers.deserialize(json, specifiedType: specifiedType);
       }
-      return result;
+      return json;
     }
 
     // 需要使用泛型
-    final isGeneric =
-        serializer is StructuredSerializer && specifiedType != null && specifiedType != FullType.unspecified;
-
-    if (isGeneric) {
-      // 泛型支持
-      final Map data = isStringType ? json.decode(source) : source;
-      final list = [];
-      data.forEach((key, val) {
-        list.add(key);
-        list.add(val);
-      });
-      return (serializer as StructuredSerializer).deserialize(this._serializers, list, specifiedType: specifiedType);
+    if (_isGeneric(serializer, specifiedType)) {
+      return _deserializeWithGeneric(json, serializer, specifiedType);
     }
 
-    return this._serializers.deserializeWith(serializer, isStringType ? json.decode(source) : source);
+    return this._serializers.deserializeWith(serializer, json);
   }
 
   /// object to string
@@ -67,40 +53,57 @@ class BuiltJsonSerializers {
   /// [serializer] built serializer
   /// [specifiedType]
   String toJson<T>(object, {Serializer<T> serializer, FullType specifiedType}) {
-    if (object == null) {
+    if (_isEmpty(object)) {
       return null;
     }
 
     if (serializer == null) {
-      if (object is JsonSerializableObject) {
-        return object.toJson();
-      }
       return jsonEncode(object);
-    }
-    // 需要使用泛型
-    final isGeneric =
-        serializer is StructuredSerializer && specifiedType != null && specifiedType != FullType.unspecified;
-    if (isGeneric) {
-      // 泛型支持
-      if (specifiedType == null) {
-        specifiedType = FullType.unspecified;
-      }
-      var result =
-          (serializer as StructuredSerializer).serialize(this._serializers, object, specifiedType: specifiedType);
-      final iterator = result.iterator;
-      final map = {};
-      while (iterator.moveNext()) {
-        final key = iterator.current as String;
-        iterator.moveNext();
-        final dynamic value = iterator.current;
-        map[key] = value;
-      }
-      return jsonEncode(map);
     }
 
     if (object is JsonSerializableObject) {
       return object.toJson();
     }
+
+    // 需要使用泛型
+    if (_isGeneric(serializer, specifiedType)) {
+      return _serializeWhitGeneric(object, serializer as StructuredSerializer, specifiedType ?? FullType.unspecified);
+    }
+
     return jsonEncode(this._serializers.serializeWith(serializer, object));
+  }
+
+  bool _isEmpty(source) => source == null || (source is String && !StringUtils.hasText(source));
+
+  bool _isGeneric(Serializer<dynamic> serializer, FullType specifiedType) {
+    return serializer is StructuredSerializer && _isSpecifiedType(specifiedType);
+  }
+
+  _deserializeWithGeneric(Map json, Serializer<dynamic> serializer, FullType specifiedType) {
+    final list = [];
+    json.forEach((key, val) {
+      list.add(key);
+      list.add(val);
+    });
+    return (serializer as StructuredSerializer).deserialize(this._serializers, list, specifiedType: specifiedType);
+  }
+
+  _tryDecode(source) => source is String ? json.decode(source) : source;
+
+  bool _isSpecifiedType(FullType specifiedType) =>
+      specifiedType != null && specifiedType != FullType.unspecified && specifiedType != FullType.object;
+
+  String _serializeWhitGeneric(object, StructuredSerializer<dynamic> serializer, FullType specifiedType) {
+    // 泛型支持
+    final result = serializer.serialize(this._serializers, object, specifiedType: specifiedType);
+    final iterator = result.iterator;
+    final map = {};
+    while (iterator.moveNext()) {
+      final key = iterator.current as String;
+      iterator.moveNext();
+      final dynamic value = iterator.current;
+      map[key] = value;
+    }
+    return jsonEncode(map);
   }
 }
