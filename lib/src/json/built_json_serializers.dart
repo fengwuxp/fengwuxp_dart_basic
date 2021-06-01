@@ -4,7 +4,7 @@ import 'package:built_value/serializer.dart';
 import 'package:fengwuxp_dart_basic/index.dart';
 import 'package:fengwuxp_dart_basic/src/utils/string_utils.dart';
 
-/// 基于 built_value的 json serializer
+/// 基于 built_value 的 json serializer
 /// doc [https://github.com/google/built_value.dart]
 class BuiltJsonSerializers {
   Serializers _serializers;
@@ -19,14 +19,14 @@ class BuiltJsonSerializers {
   /// [source] type [String] or  [Map] or [List] or [Set]
   /// [serializer]  类型 serializer
   /// [formJson]    自定义的formJson 工厂方法
-  /// [specifiedType]    FullType 存在泛型是需要
+  /// [specifiedType]    FullType 存在泛型时需要
   /// 泛型支持需要 [SerializersBuilder.addBuilderFactory]
   T parseObject<T>(dynamic source, {Serializer<T> serializer, Function formJson, FullType specifiedType}) {
     if (_isEmpty(source)) {
       return null;
     }
 
-    final json = _tryDecode(source);
+    final json = _tryJsonDecode(source);
 
     if (formJson != null) {
       // 自定义的fromJson方法
@@ -88,7 +88,7 @@ class BuiltJsonSerializers {
     return (serializer as StructuredSerializer).deserialize(this._serializers, list, specifiedType: specifiedType);
   }
 
-  _tryDecode(source) => source is String ? json.decode(source) : source;
+  _tryJsonDecode(source) => source is String ? json.decode(source) : source;
 
   bool _isSpecifiedType(FullType specifiedType) =>
       specifiedType != null && specifiedType != FullType.unspecified && specifiedType != FullType.object;
