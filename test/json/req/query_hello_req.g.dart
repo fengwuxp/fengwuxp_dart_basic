@@ -16,28 +16,50 @@ class _$QueryHelloReqSerializer implements StructuredSerializer<QueryHelloReq> {
   final String wireName = 'QueryHelloReq';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, QueryHelloReq object,
+  Iterable<Object?> serialize(Serializers serializers, QueryHelloReq object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[
-      'id',
-      serializers.serialize(object.id, specifiedType: const FullType(int)),
-      'date',
-      serializers.serialize(object.date, specifiedType: const FullType(String)),
-      'date_gmt',
-      serializers.serialize(object.dateGmt,
-          specifiedType: const FullType(String)),
-      'type',
-      serializers.serialize(object.type, specifiedType: const FullType(String)),
-      'link',
-      serializers.serialize(object.link, specifiedType: const FullType(String)),
-    ];
-
+    final result = <Object?>[];
+    Object? value;
+    value = object.id;
+    if (value != null) {
+      result
+        ..add('id')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
+    value = object.date;
+    if (value != null) {
+      result
+        ..add('date')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.dateGmt;
+    if (value != null) {
+      result
+        ..add('date_gmt')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.type;
+    if (value != null) {
+      result
+        ..add('type')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.link;
+    if (value != null) {
+      result
+        ..add('link')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     return result;
   }
 
   @override
   QueryHelloReq deserialize(
-      Serializers serializers, Iterable<Object> serialized,
+      Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new QueryHelloReqBuilder();
 
@@ -45,7 +67,7 @@ class _$QueryHelloReqSerializer implements StructuredSerializer<QueryHelloReq> {
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final Object value = iterator.current;
+      final Object? value = iterator.current;
       switch (key) {
         case 'id':
           result.id = serializers.deserialize(value,
@@ -76,27 +98,21 @@ class _$QueryHelloReqSerializer implements StructuredSerializer<QueryHelloReq> {
 
 class _$QueryHelloReq extends QueryHelloReq {
   @override
-  final int id;
+  final int? id;
   @override
-  final String date;
+  final String? date;
   @override
-  final String dateGmt;
+  final String? dateGmt;
   @override
-  final String type;
+  final String? type;
   @override
-  final String link;
+  final String? link;
 
-  factory _$QueryHelloReq([void Function(QueryHelloReqBuilder) updates]) =>
+  factory _$QueryHelloReq([void Function(QueryHelloReqBuilder)? updates]) =>
       (new QueryHelloReqBuilder()..update(updates)).build();
 
   _$QueryHelloReq._({this.id, this.date, this.dateGmt, this.type, this.link})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(id, 'QueryHelloReq', 'id');
-    BuiltValueNullFieldError.checkNotNull(date, 'QueryHelloReq', 'date');
-    BuiltValueNullFieldError.checkNotNull(dateGmt, 'QueryHelloReq', 'dateGmt');
-    BuiltValueNullFieldError.checkNotNull(type, 'QueryHelloReq', 'type');
-    BuiltValueNullFieldError.checkNotNull(link, 'QueryHelloReq', 'link');
-  }
+      : super._();
 
   @override
   QueryHelloReq rebuild(void Function(QueryHelloReqBuilder) updates) =>
@@ -138,27 +154,27 @@ class _$QueryHelloReq extends QueryHelloReq {
 
 class QueryHelloReqBuilder
     implements Builder<QueryHelloReq, QueryHelloReqBuilder> {
-  _$QueryHelloReq _$v;
+  _$QueryHelloReq? _$v;
 
-  int _id;
-  int get id => _$this._id;
-  set id(int id) => _$this._id = id;
+  int? _id;
+  int? get id => _$this._id;
+  set id(int? id) => _$this._id = id;
 
-  String _date;
-  String get date => _$this._date;
-  set date(String date) => _$this._date = date;
+  String? _date;
+  String? get date => _$this._date;
+  set date(String? date) => _$this._date = date;
 
-  String _dateGmt;
-  String get dateGmt => _$this._dateGmt;
-  set dateGmt(String dateGmt) => _$this._dateGmt = dateGmt;
+  String? _dateGmt;
+  String? get dateGmt => _$this._dateGmt;
+  set dateGmt(String? dateGmt) => _$this._dateGmt = dateGmt;
 
-  String _type;
-  String get type => _$this._type;
-  set type(String type) => _$this._type = type;
+  String? _type;
+  String? get type => _$this._type;
+  set type(String? type) => _$this._type = type;
 
-  String _link;
-  String get link => _$this._link;
-  set link(String link) => _$this._link = link;
+  String? _link;
+  String? get link => _$this._link;
+  set link(String? link) => _$this._link = link;
 
   QueryHelloReqBuilder();
 
@@ -182,7 +198,7 @@ class QueryHelloReqBuilder
   }
 
   @override
-  void update(void Function(QueryHelloReqBuilder) updates) {
+  void update(void Function(QueryHelloReqBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
@@ -190,16 +206,7 @@ class QueryHelloReqBuilder
   _$QueryHelloReq build() {
     final _$result = _$v ??
         new _$QueryHelloReq._(
-            id: BuiltValueNullFieldError.checkNotNull(
-                id, 'QueryHelloReq', 'id'),
-            date: BuiltValueNullFieldError.checkNotNull(
-                date, 'QueryHelloReq', 'date'),
-            dateGmt: BuiltValueNullFieldError.checkNotNull(
-                dateGmt, 'QueryHelloReq', 'dateGmt'),
-            type: BuiltValueNullFieldError.checkNotNull(
-                type, 'QueryHelloReq', 'type'),
-            link: BuiltValueNullFieldError.checkNotNull(
-                link, 'QueryHelloReq', 'link'));
+            id: id, date: date, dateGmt: dateGmt, type: type, link: link);
     replace(_$result);
     return _$result;
   }

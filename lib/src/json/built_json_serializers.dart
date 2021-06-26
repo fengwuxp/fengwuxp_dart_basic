@@ -21,7 +21,7 @@ class BuiltJsonSerializers {
   /// [formJson]    自定义的formJson 工厂方法
   /// [specifiedType]    FullType 存在泛型时需要
   /// 泛型支持需要 [SerializersBuilder.addBuilderFactory]
-  T parseObject<T>(dynamic source, {Serializer<T> serializer, Function formJson, FullType specifiedType}) {
+  T? parseObject<T>(dynamic source, {Serializer<T>? serializer, Function? formJson, FullType? specifiedType}) {
     if (_isEmpty(source)) {
       return null;
     }
@@ -35,7 +35,7 @@ class BuiltJsonSerializers {
 
     if (serializer == null) {
       if (_isSpecifiedType(specifiedType)) {
-        return this._serializers.deserialize(json, specifiedType: specifiedType);
+        return this._serializers.deserialize(json, specifiedType: specifiedType ?? FullType.unspecified) as T;
       }
       return json;
     }
@@ -52,7 +52,7 @@ class BuiltJsonSerializers {
   /// [object] serialize object
   /// [serializer] built serializer
   /// [specifiedType]
-  String toJson<T>(object, {Serializer<T> serializer, FullType specifiedType}) {
+  String? toJson<T>(object, {Serializer<T>? serializer, FullType? specifiedType}) {
     if (_isEmpty(object)) {
       return null;
     }
@@ -75,22 +75,23 @@ class BuiltJsonSerializers {
 
   bool _isEmpty(source) => source == null || (source is String && !StringUtils.hasText(source));
 
-  bool _isGeneric(Serializer<dynamic> serializer, FullType specifiedType) {
+  bool _isGeneric(Serializer<dynamic>? serializer, FullType? specifiedType) {
     return serializer is StructuredSerializer && _isSpecifiedType(specifiedType);
   }
 
-  _deserializeWithGeneric(Map json, Serializer<dynamic> serializer, FullType specifiedType) {
+  _deserializeWithGeneric(Map json, Serializer<dynamic>? serializer, FullType? specifiedType) {
     final list = [];
     json.forEach((key, val) {
       list.add(key);
       list.add(val);
     });
-    return (serializer as StructuredSerializer).deserialize(this._serializers, list, specifiedType: specifiedType);
+    return (serializer as StructuredSerializer)
+        .deserialize(this._serializers, list, specifiedType: specifiedType ?? FullType.unspecified);
   }
 
   _tryJsonDecode(source) => source is String ? json.decode(source) : source;
 
-  bool _isSpecifiedType(FullType specifiedType) =>
+  bool _isSpecifiedType(FullType? specifiedType) =>
       specifiedType != null && specifiedType != FullType.unspecified && specifiedType != FullType.object;
 
   String _serializeWhitGeneric(object, StructuredSerializer<dynamic> serializer, FullType specifiedType) {

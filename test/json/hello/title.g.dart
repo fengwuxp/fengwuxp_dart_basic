@@ -15,19 +15,22 @@ class _$TitleSerializer implements StructuredSerializer<Title> {
   final String wireName = 'Title';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, Title object,
+  Iterable<Object?> serialize(Serializers serializers, Title object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[
-      'rendered',
-      serializers.serialize(object.rendered,
-          specifiedType: const FullType(String)),
-    ];
-
+    final result = <Object?>[];
+    Object? value;
+    value = object.rendered;
+    if (value != null) {
+      result
+        ..add('rendered')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     return result;
   }
 
   @override
-  Title deserialize(Serializers serializers, Iterable<Object> serialized,
+  Title deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new TitleBuilder();
 
@@ -35,7 +38,7 @@ class _$TitleSerializer implements StructuredSerializer<Title> {
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final Object value = iterator.current;
+      final Object? value = iterator.current;
       switch (key) {
         case 'rendered':
           result.rendered = serializers.deserialize(value,
@@ -50,14 +53,12 @@ class _$TitleSerializer implements StructuredSerializer<Title> {
 
 class _$Title extends Title {
   @override
-  final String rendered;
+  final String? rendered;
 
-  factory _$Title([void Function(TitleBuilder) updates]) =>
+  factory _$Title([void Function(TitleBuilder)? updates]) =>
       (new TitleBuilder()..update(updates)).build();
 
-  _$Title._({this.rendered}) : super._() {
-    BuiltValueNullFieldError.checkNotNull(rendered, 'Title', 'rendered');
-  }
+  _$Title._({this.rendered}) : super._();
 
   @override
   Title rebuild(void Function(TitleBuilder) updates) =>
@@ -85,11 +86,11 @@ class _$Title extends Title {
 }
 
 class TitleBuilder implements Builder<Title, TitleBuilder> {
-  _$Title _$v;
+  _$Title? _$v;
 
-  String _rendered;
-  String get rendered => _$this._rendered;
-  set rendered(String rendered) => _$this._rendered = rendered;
+  String? _rendered;
+  String? get rendered => _$this._rendered;
+  set rendered(String? rendered) => _$this._rendered = rendered;
 
   TitleBuilder();
 
@@ -109,16 +110,13 @@ class TitleBuilder implements Builder<Title, TitleBuilder> {
   }
 
   @override
-  void update(void Function(TitleBuilder) updates) {
+  void update(void Function(TitleBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
   @override
   _$Title build() {
-    final _$result = _$v ??
-        new _$Title._(
-            rendered: BuiltValueNullFieldError.checkNotNull(
-                rendered, 'Title', 'rendered'));
+    final _$result = _$v ?? new _$Title._(rendered: rendered);
     replace(_$result);
     return _$result;
   }

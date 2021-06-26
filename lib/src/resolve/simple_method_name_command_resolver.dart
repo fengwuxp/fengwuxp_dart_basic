@@ -16,8 +16,7 @@ var _toHumpRegExp = new RegExp("\\_(.+?)", dotAll: true);
 final MethodNameCommandResolver toHumpResolver = (String methodName) {
   return methodName.replaceAllMapped(_toHumpRegExp, (Match match) {
     String text;
-    num i = 0;
-    while ((text = match.group(i)) != null) {
+    while ((text = match.group(0) ?? "") != "") {
       return text.substring(1, text.length).toUpperCase();
     }
     return '';
@@ -30,8 +29,7 @@ var _toLineResolver = new RegExp("([A-Z])", dotAll: true);
 final MethodNameCommandResolver toLineResolver = (String methodName) {
   return methodName.replaceAllMapped(_toLineResolver, (Match match) {
     String text;
-    num i = 0;
-    while ((text = match.group(i)) != null) {
+    while ((text = match.group(0) ?? "") != "") {
       return "_" + text.toLowerCase();
     }
     return '';

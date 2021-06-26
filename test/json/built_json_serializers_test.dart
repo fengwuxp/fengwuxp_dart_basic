@@ -27,12 +27,12 @@ void main() {
 
     final hello = serializers.deserializeWith(Hello.serializer, jsonDecode(jsonText));
 
-    print("==>${hello.id}");
+    print("==>${hello?.id}");
     final _h = serializers.serializeWith(Hello.serializer, hello);
     print(json.encode(_h));
 
     final formJson = Hello.formJson(jsonText);
-    print(formJson.toJson());
+    print(formJson?.toJson());
 
     final builtJsonSerializers = BuiltJsonSerializers(serializers);
     var result = builtJsonSerializers.parseObject(jsonText, serializer: Hello.serializer);

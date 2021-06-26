@@ -15,33 +15,64 @@ class _$HelloSerializer implements StructuredSerializer<Hello> {
   final String wireName = 'Hello';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, Hello object,
+  Iterable<Object?> serialize(Serializers serializers, Hello object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[
-      'id',
-      serializers.serialize(object.id, specifiedType: const FullType(int)),
-      'date',
-      serializers.serialize(object.date, specifiedType: const FullType(String)),
-      'date_gmt',
-      serializers.serialize(object.dateGmt,
-          specifiedType: const FullType(String)),
-      'type',
-      serializers.serialize(object.type, specifiedType: const FullType(String)),
-      'link',
-      serializers.serialize(object.link, specifiedType: const FullType(String)),
-      'title',
-      serializers.serialize(object.title, specifiedType: const FullType(Title)),
-      'tags',
-      serializers.serialize(object.tags,
-          specifiedType:
-              const FullType(BuiltList, const [const FullType(int)])),
-    ];
-
+    final result = <Object?>[];
+    Object? value;
+    value = object.id;
+    if (value != null) {
+      result
+        ..add('id')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
+    value = object.date;
+    if (value != null) {
+      result
+        ..add('date')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.dateGmt;
+    if (value != null) {
+      result
+        ..add('date_gmt')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.type;
+    if (value != null) {
+      result
+        ..add('type')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.link;
+    if (value != null) {
+      result
+        ..add('link')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.title;
+    if (value != null) {
+      result
+        ..add('title')
+        ..add(
+            serializers.serialize(value, specifiedType: const FullType(Title)));
+    }
+    value = object.tags;
+    if (value != null) {
+      result
+        ..add('tags')
+        ..add(serializers.serialize(value,
+            specifiedType:
+                const FullType(BuiltList, const [const FullType(int)])));
+    }
     return result;
   }
 
   @override
-  Hello deserialize(Serializers serializers, Iterable<Object> serialized,
+  Hello deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new HelloBuilder();
 
@@ -49,7 +80,7 @@ class _$HelloSerializer implements StructuredSerializer<Hello> {
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final Object value = iterator.current;
+      final Object? value = iterator.current;
       switch (key) {
         case 'id':
           result.id = serializers.deserialize(value,
@@ -73,12 +104,12 @@ class _$HelloSerializer implements StructuredSerializer<Hello> {
           break;
         case 'title':
           result.title.replace(serializers.deserialize(value,
-              specifiedType: const FullType(Title)) as Title);
+              specifiedType: const FullType(Title))! as Title);
           break;
         case 'tags':
           result.tags.replace(serializers.deserialize(value,
                   specifiedType:
-                      const FullType(BuiltList, const [const FullType(int)]))
+                      const FullType(BuiltList, const [const FullType(int)]))!
               as BuiltList<Object>);
           break;
       }
@@ -90,21 +121,21 @@ class _$HelloSerializer implements StructuredSerializer<Hello> {
 
 class _$Hello extends Hello {
   @override
-  final int id;
+  final int? id;
   @override
-  final String date;
+  final String? date;
   @override
-  final String dateGmt;
+  final String? dateGmt;
   @override
-  final String type;
+  final String? type;
   @override
-  final String link;
+  final String? link;
   @override
-  final Title title;
+  final Title? title;
   @override
-  final BuiltList<int> tags;
+  final BuiltList<int>? tags;
 
-  factory _$Hello([void Function(HelloBuilder) updates]) =>
+  factory _$Hello([void Function(HelloBuilder)? updates]) =>
       (new HelloBuilder()..update(updates)).build();
 
   _$Hello._(
@@ -115,15 +146,7 @@ class _$Hello extends Hello {
       this.link,
       this.title,
       this.tags})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(id, 'Hello', 'id');
-    BuiltValueNullFieldError.checkNotNull(date, 'Hello', 'date');
-    BuiltValueNullFieldError.checkNotNull(dateGmt, 'Hello', 'dateGmt');
-    BuiltValueNullFieldError.checkNotNull(type, 'Hello', 'type');
-    BuiltValueNullFieldError.checkNotNull(link, 'Hello', 'link');
-    BuiltValueNullFieldError.checkNotNull(title, 'Hello', 'title');
-    BuiltValueNullFieldError.checkNotNull(tags, 'Hello', 'tags');
-  }
+      : super._();
 
   @override
   Hello rebuild(void Function(HelloBuilder) updates) =>
@@ -174,35 +197,35 @@ class _$Hello extends Hello {
 }
 
 class HelloBuilder implements Builder<Hello, HelloBuilder> {
-  _$Hello _$v;
+  _$Hello? _$v;
 
-  int _id;
-  int get id => _$this._id;
-  set id(int id) => _$this._id = id;
+  int? _id;
+  int? get id => _$this._id;
+  set id(int? id) => _$this._id = id;
 
-  String _date;
-  String get date => _$this._date;
-  set date(String date) => _$this._date = date;
+  String? _date;
+  String? get date => _$this._date;
+  set date(String? date) => _$this._date = date;
 
-  String _dateGmt;
-  String get dateGmt => _$this._dateGmt;
-  set dateGmt(String dateGmt) => _$this._dateGmt = dateGmt;
+  String? _dateGmt;
+  String? get dateGmt => _$this._dateGmt;
+  set dateGmt(String? dateGmt) => _$this._dateGmt = dateGmt;
 
-  String _type;
-  String get type => _$this._type;
-  set type(String type) => _$this._type = type;
+  String? _type;
+  String? get type => _$this._type;
+  set type(String? type) => _$this._type = type;
 
-  String _link;
-  String get link => _$this._link;
-  set link(String link) => _$this._link = link;
+  String? _link;
+  String? get link => _$this._link;
+  set link(String? link) => _$this._link = link;
 
-  TitleBuilder _title;
+  TitleBuilder? _title;
   TitleBuilder get title => _$this._title ??= new TitleBuilder();
-  set title(TitleBuilder title) => _$this._title = title;
+  set title(TitleBuilder? title) => _$this._title = title;
 
-  ListBuilder<int> _tags;
+  ListBuilder<int>? _tags;
   ListBuilder<int> get tags => _$this._tags ??= new ListBuilder<int>();
-  set tags(ListBuilder<int> tags) => _$this._tags = tags;
+  set tags(ListBuilder<int>? tags) => _$this._tags = tags;
 
   HelloBuilder();
 
@@ -214,8 +237,8 @@ class HelloBuilder implements Builder<Hello, HelloBuilder> {
       _dateGmt = $v.dateGmt;
       _type = $v.type;
       _link = $v.link;
-      _title = $v.title.toBuilder();
-      _tags = $v.tags.toBuilder();
+      _title = $v.title?.toBuilder();
+      _tags = $v.tags?.toBuilder();
       _$v = null;
     }
     return this;
@@ -228,7 +251,7 @@ class HelloBuilder implements Builder<Hello, HelloBuilder> {
   }
 
   @override
-  void update(void Function(HelloBuilder) updates) {
+  void update(void Function(HelloBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
@@ -238,24 +261,20 @@ class HelloBuilder implements Builder<Hello, HelloBuilder> {
     try {
       _$result = _$v ??
           new _$Hello._(
-              id: BuiltValueNullFieldError.checkNotNull(id, 'Hello', 'id'),
-              date:
-                  BuiltValueNullFieldError.checkNotNull(date, 'Hello', 'date'),
-              dateGmt: BuiltValueNullFieldError.checkNotNull(
-                  dateGmt, 'Hello', 'dateGmt'),
-              type:
-                  BuiltValueNullFieldError.checkNotNull(type, 'Hello', 'type'),
-              link:
-                  BuiltValueNullFieldError.checkNotNull(link, 'Hello', 'link'),
-              title: title.build(),
-              tags: tags.build());
+              id: id,
+              date: date,
+              dateGmt: dateGmt,
+              type: type,
+              link: link,
+              title: _title?.build(),
+              tags: _tags?.build());
     } catch (_) {
-      String _$failedField;
+      late String _$failedField;
       try {
         _$failedField = 'title';
-        title.build();
+        _title?.build();
         _$failedField = 'tags';
-        tags.build();
+        _tags?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             'Hello', _$failedField, e.toString());

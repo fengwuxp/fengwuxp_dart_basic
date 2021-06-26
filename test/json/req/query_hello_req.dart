@@ -16,23 +16,23 @@ abstract class QueryHelloReq implements Built<QueryHelloReq, QueryHelloReqBuilde
   factory QueryHelloReq([updates(QueryHelloReqBuilder b)]) = _$QueryHelloReq;
 
   @BuiltValueField(wireName: 'id')
-  int get id;
+  int? get id;
 
   @BuiltValueField(wireName: 'date')
-  String get date;
+  String? get date;
 
   @BuiltValueField(wireName: 'date_gmt')
-  String get dateGmt;
+  String? get dateGmt;
 
   @BuiltValueField(wireName: 'type')
-  String get type;
+  String? get type;
 
   @BuiltValueField(wireName: 'link')
-  String get link;
+  String? get link;
 
   @override
   Map<String, dynamic> toMap() {
-    return serializers.serializeWith(QueryHelloReq.serializer, this);
+    return serializers.serializeWith(QueryHelloReq.serializer, this) as  Map<String, dynamic>;
   }
 
   @override

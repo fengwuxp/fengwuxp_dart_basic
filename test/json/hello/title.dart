@@ -11,7 +11,7 @@ abstract class Title implements Built<Title, TitleBuilder> {
   factory Title([updates(TitleBuilder b)]) = _$Title;
 
   @BuiltValueField(wireName: 'rendered')
-  String get rendered;
+  String? get rendered;
 
   static Serializer<Title> get serializer => _$titleSerializer;
 }

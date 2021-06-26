@@ -37,7 +37,7 @@ class EasyDebounce {
 
   /// Cancels any active debounce operation with the given [tag].
   static void cancel(String tag) {
-    _timers[tag].cancel();
+    _timers[tag]?.cancel();
     _timers.remove(tag);
   }
 
