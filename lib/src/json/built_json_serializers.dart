@@ -7,9 +7,9 @@ import 'package:fengwuxp_dart_basic/src/utils/string_utils.dart';
 /// 基于 built_value 的 json serializer
 /// doc [https://github.com/google/built_value.dart]
 class BuiltJsonSerializers {
-  Serializers _serializers;
+  final Serializers serializers;
 
-  BuiltJsonSerializers._(this._serializers);
+  BuiltJsonSerializers._(this.serializers);
 
   factory BuiltJsonSerializers(Serializers serializers) {
     return BuiltJsonSerializers._(serializers);
@@ -17,25 +17,28 @@ class BuiltJsonSerializers {
 
   /// parse json [String] or [Map] or [List] or [Set] to object
   /// [source] type [String] or  [Map] or [List] or [Set]
-  /// [serializer]  类型 serializer
+  /// [resultType]  结果数据类型
   /// [formJson]    自定义的formJson 工厂方法
   /// [specifiedType]    FullType 存在泛型时需要
   /// 泛型支持需要 [SerializersBuilder.addBuilderFactory]
-  T parseObject<T>(dynamic source, {Serializer<T> serializer, Function formJson, FullType specifiedType}) {
+  T parseObject<T>(dynamic source, {Type resultType, Function formJson, FullType specifiedType}) {
     if (_isEmpty(source)) {
       return null;
     }
 
     final json = _tryJsonDecode(source);
-
     if (formJson != null) {
       // 自定义的fromJson方法
       return formJson(json);
     }
+    if (resultType == null) {
+      throw new ArgumentError("parameter resultType must null");
+    }
 
+    final serializer = serializers.serializerForType(resultType);
     if (serializer == null) {
       if (_isSpecifiedType(specifiedType)) {
-        return this._serializers.deserialize(json, specifiedType: specifiedType);
+        return this.serializers.deserialize(json, specifiedType: specifiedType);
       }
       return json;
     }
@@ -45,18 +48,18 @@ class BuiltJsonSerializers {
       return _deserializeWithGeneric(json, serializer, specifiedType);
     }
 
-    return this._serializers.deserializeWith(serializer, json);
+    return this.serializers.deserializeWith(serializer, json);
   }
 
   /// object to string
   /// [object] serialize object
-  /// [serializer] built serializer
   /// [specifiedType]
-  String toJson<T>(object, {Serializer<T> serializer, FullType specifiedType}) {
+  String toJson<T>(object, {FullType specifiedType}) {
     if (_isEmpty(object)) {
       return null;
     }
 
+    final serializer = serializers.serializerForType(object.runtimeType);
     if (serializer == null) {
       return jsonEncode(object);
     }
@@ -70,7 +73,7 @@ class BuiltJsonSerializers {
       return _serializeWhitGeneric(object, serializer as StructuredSerializer, specifiedType ?? FullType.unspecified);
     }
 
-    return jsonEncode(this._serializers.serializeWith(serializer, object));
+    return jsonEncode(this.serializers.serializeWith(serializer, object));
   }
 
   bool _isEmpty(source) => source == null || (source is String && !StringUtils.hasText(source));
@@ -85,7 +88,7 @@ class BuiltJsonSerializers {
       list.add(key);
       list.add(val);
     });
-    return (serializer as StructuredSerializer).deserialize(this._serializers, list, specifiedType: specifiedType);
+    return (serializer as StructuredSerializer).deserialize(this.serializers, list, specifiedType: specifiedType);
   }
 
   _tryJsonDecode(source) => source is String ? json.decode(source) : source;
@@ -95,7 +98,7 @@ class BuiltJsonSerializers {
 
   String _serializeWhitGeneric(object, StructuredSerializer<dynamic> serializer, FullType specifiedType) {
     // 泛型支持
-    final result = serializer.serialize(this._serializers, object, specifiedType: specifiedType);
+    final result = serializer.serialize(this.serializers, object, specifiedType: specifiedType);
     final iterator = result.iterator;
     final map = {};
     while (iterator.moveNext()) {

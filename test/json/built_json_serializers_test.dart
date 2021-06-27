@@ -35,10 +35,10 @@ void main() {
     print(formJson.toJson());
 
     final builtJsonSerializers = BuiltJsonSerializers(serializers);
-    var result = builtJsonSerializers.parseObject(jsonText, serializer: Hello.serializer);
-    result = builtJsonSerializers.parseObject(json.decode(jsonText), serializer: Hello.serializer);
+    var result = builtJsonSerializers.parseObject(jsonText, resultType: Hello);
+    result = builtJsonSerializers.parseObject(json.decode(jsonText), resultType: Hello);
     print("===> $result");
-    var text = builtJsonSerializers.toJson(result, serializer: Hello.serializer);
+    var text = builtJsonSerializers.toJson(result);
     print("===> $text");
   });
 }
