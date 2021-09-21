@@ -1,5 +1,5 @@
 class StringUtils {
-  static bool hasText(String str) {
+  static bool hasText(String? str) {
     if (str == null) {
       return false;
     }

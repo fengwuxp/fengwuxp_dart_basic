@@ -15,12 +15,11 @@ var _toHumpRegExp = new RegExp("\\_(.+?)", dotAll: true);
 /// 下划线转驼峰
 final MethodNameCommandResolver toHumpResolver = (String methodName) {
   return methodName.replaceAllMapped(_toHumpRegExp, (Match match) {
-    String text;
-    num i = 0;
-    while ((text = match.group(i)) != null) {
-      return text.substring(1, text.length).toUpperCase();
+    String? text = match.group(0);
+    if (text == null) {
+      return '';
     }
-    return '';
+    return text.substring(1, text.length).toUpperCase();
   });
 };
 
@@ -29,11 +28,10 @@ var _toLineResolver = new RegExp("([A-Z])", dotAll: true);
 /// 驼峰转下划线
 final MethodNameCommandResolver toLineResolver = (String methodName) {
   return methodName.replaceAllMapped(_toLineResolver, (Match match) {
-    String text;
-    num i = 0;
-    while ((text = match.group(i)) != null) {
-      return "_" + text.toLowerCase();
+    String? text = match.group(0);
+    if (text == null) {
+      return '';
     }
-    return '';
+    return "_" + text.toLowerCase();
   });
 };

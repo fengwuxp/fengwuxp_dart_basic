@@ -28,11 +28,11 @@ class QueryStringParser {
 
     // Go through all the matches and build the result map.
     for (Match match in search.allMatches(query)) {
-      var value = match.group(2);
-      if (value.trim().length == 0 && filterNoneValue) {
+      final value = match.group(2);
+      if (value?.trim().length == 0 && filterNoneValue) {
         continue;
       }
-      var key = match.group(1);
+      final key = match.group(1);
       var item = result[key];
       if (item != null) {
         // if value exist ,converter to List
@@ -43,14 +43,14 @@ class QueryStringParser {
       } else {
         item = value;
       }
-      result[key] = item;
+      result[key as String] = item;
     }
 
     return result;
   }
 
   /// if [queryParams] params is null or empty return null
-  static String stringify(Map queryParams, {bool filterNoneValue = true, Encoding encoding = utf8}) {
+  static String? stringify(Map queryParams, {bool filterNoneValue = true, Encoding encoding = utf8}) {
     if (queryParams == null || queryParams.isEmpty) {
       return null;
     }

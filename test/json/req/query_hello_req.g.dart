@@ -16,9 +16,9 @@ class _$QueryHelloReqSerializer implements StructuredSerializer<QueryHelloReq> {
   final String wireName = 'QueryHelloReq';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, QueryHelloReq object,
+  Iterable<Object?> serialize(Serializers serializers, QueryHelloReq object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[
+    final result = <Object?>[
       'id',
       serializers.serialize(object.id, specifiedType: const FullType(int)),
       'date',
@@ -37,7 +37,7 @@ class _$QueryHelloReqSerializer implements StructuredSerializer<QueryHelloReq> {
 
   @override
   QueryHelloReq deserialize(
-      Serializers serializers, Iterable<Object> serialized,
+      Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new QueryHelloReqBuilder();
 
@@ -45,7 +45,7 @@ class _$QueryHelloReqSerializer implements StructuredSerializer<QueryHelloReq> {
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final Object value = iterator.current;
+      final Object? value = iterator.current;
       switch (key) {
         case 'id':
           result.id = serializers.deserialize(value,
@@ -86,10 +86,15 @@ class _$QueryHelloReq extends QueryHelloReq {
   @override
   final String link;
 
-  factory _$QueryHelloReq([void Function(QueryHelloReqBuilder) updates]) =>
+  factory _$QueryHelloReq([void Function(QueryHelloReqBuilder)? updates]) =>
       (new QueryHelloReqBuilder()..update(updates)).build();
 
-  _$QueryHelloReq._({this.id, this.date, this.dateGmt, this.type, this.link})
+  _$QueryHelloReq._(
+      {required this.id,
+      required this.date,
+      required this.dateGmt,
+      required this.type,
+      required this.link})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(id, 'QueryHelloReq', 'id');
     BuiltValueNullFieldError.checkNotNull(date, 'QueryHelloReq', 'date');
@@ -138,27 +143,27 @@ class _$QueryHelloReq extends QueryHelloReq {
 
 class QueryHelloReqBuilder
     implements Builder<QueryHelloReq, QueryHelloReqBuilder> {
-  _$QueryHelloReq _$v;
+  _$QueryHelloReq? _$v;
 
-  int _id;
-  int get id => _$this._id;
-  set id(int id) => _$this._id = id;
+  int? _id;
+  int? get id => _$this._id;
+  set id(int? id) => _$this._id = id;
 
-  String _date;
-  String get date => _$this._date;
-  set date(String date) => _$this._date = date;
+  String? _date;
+  String? get date => _$this._date;
+  set date(String? date) => _$this._date = date;
 
-  String _dateGmt;
-  String get dateGmt => _$this._dateGmt;
-  set dateGmt(String dateGmt) => _$this._dateGmt = dateGmt;
+  String? _dateGmt;
+  String? get dateGmt => _$this._dateGmt;
+  set dateGmt(String? dateGmt) => _$this._dateGmt = dateGmt;
 
-  String _type;
-  String get type => _$this._type;
-  set type(String type) => _$this._type = type;
+  String? _type;
+  String? get type => _$this._type;
+  set type(String? type) => _$this._type = type;
 
-  String _link;
-  String get link => _$this._link;
-  set link(String link) => _$this._link = link;
+  String? _link;
+  String? get link => _$this._link;
+  set link(String? link) => _$this._link = link;
 
   QueryHelloReqBuilder();
 
@@ -182,7 +187,7 @@ class QueryHelloReqBuilder
   }
 
   @override
-  void update(void Function(QueryHelloReqBuilder) updates) {
+  void update(void Function(QueryHelloReqBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
@@ -205,4 +210,4 @@ class QueryHelloReqBuilder
   }
 }
 
-// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,lines_longer_than_80_chars,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new
+// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new

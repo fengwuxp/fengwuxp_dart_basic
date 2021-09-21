@@ -15,9 +15,9 @@ class _$HelloSerializer implements StructuredSerializer<Hello> {
   final String wireName = 'Hello';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, Hello object,
+  Iterable<Object?> serialize(Serializers serializers, Hello object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[
+    final result = <Object?>[
       'id',
       serializers.serialize(object.id, specifiedType: const FullType(int)),
       'date',
@@ -41,7 +41,7 @@ class _$HelloSerializer implements StructuredSerializer<Hello> {
   }
 
   @override
-  Hello deserialize(Serializers serializers, Iterable<Object> serialized,
+  Hello deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new HelloBuilder();
 
@@ -49,7 +49,7 @@ class _$HelloSerializer implements StructuredSerializer<Hello> {
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final Object value = iterator.current;
+      final Object? value = iterator.current;
       switch (key) {
         case 'id':
           result.id = serializers.deserialize(value,
@@ -73,13 +73,13 @@ class _$HelloSerializer implements StructuredSerializer<Hello> {
           break;
         case 'title':
           result.title.replace(serializers.deserialize(value,
-              specifiedType: const FullType(Title)) as Title);
+              specifiedType: const FullType(Title))! as Title);
           break;
         case 'tags':
           result.tags.replace(serializers.deserialize(value,
                   specifiedType:
-                      const FullType(BuiltList, const [const FullType(int)]))
-              as BuiltList<Object>);
+                      const FullType(BuiltList, const [const FullType(int)]))!
+              as BuiltList<Object?>);
           break;
       }
     }
@@ -104,17 +104,17 @@ class _$Hello extends Hello {
   @override
   final BuiltList<int> tags;
 
-  factory _$Hello([void Function(HelloBuilder) updates]) =>
+  factory _$Hello([void Function(HelloBuilder)? updates]) =>
       (new HelloBuilder()..update(updates)).build();
 
   _$Hello._(
-      {this.id,
-      this.date,
-      this.dateGmt,
-      this.type,
-      this.link,
-      this.title,
-      this.tags})
+      {required this.id,
+      required this.date,
+      required this.dateGmt,
+      required this.type,
+      required this.link,
+      required this.title,
+      required this.tags})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(id, 'Hello', 'id');
     BuiltValueNullFieldError.checkNotNull(date, 'Hello', 'date');
@@ -174,35 +174,35 @@ class _$Hello extends Hello {
 }
 
 class HelloBuilder implements Builder<Hello, HelloBuilder> {
-  _$Hello _$v;
+  _$Hello? _$v;
 
-  int _id;
-  int get id => _$this._id;
-  set id(int id) => _$this._id = id;
+  int? _id;
+  int? get id => _$this._id;
+  set id(int? id) => _$this._id = id;
 
-  String _date;
-  String get date => _$this._date;
-  set date(String date) => _$this._date = date;
+  String? _date;
+  String? get date => _$this._date;
+  set date(String? date) => _$this._date = date;
 
-  String _dateGmt;
-  String get dateGmt => _$this._dateGmt;
-  set dateGmt(String dateGmt) => _$this._dateGmt = dateGmt;
+  String? _dateGmt;
+  String? get dateGmt => _$this._dateGmt;
+  set dateGmt(String? dateGmt) => _$this._dateGmt = dateGmt;
 
-  String _type;
-  String get type => _$this._type;
-  set type(String type) => _$this._type = type;
+  String? _type;
+  String? get type => _$this._type;
+  set type(String? type) => _$this._type = type;
 
-  String _link;
-  String get link => _$this._link;
-  set link(String link) => _$this._link = link;
+  String? _link;
+  String? get link => _$this._link;
+  set link(String? link) => _$this._link = link;
 
-  TitleBuilder _title;
+  TitleBuilder? _title;
   TitleBuilder get title => _$this._title ??= new TitleBuilder();
-  set title(TitleBuilder title) => _$this._title = title;
+  set title(TitleBuilder? title) => _$this._title = title;
 
-  ListBuilder<int> _tags;
+  ListBuilder<int>? _tags;
   ListBuilder<int> get tags => _$this._tags ??= new ListBuilder<int>();
-  set tags(ListBuilder<int> tags) => _$this._tags = tags;
+  set tags(ListBuilder<int>? tags) => _$this._tags = tags;
 
   HelloBuilder();
 
@@ -228,7 +228,7 @@ class HelloBuilder implements Builder<Hello, HelloBuilder> {
   }
 
   @override
-  void update(void Function(HelloBuilder) updates) {
+  void update(void Function(HelloBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
@@ -250,7 +250,7 @@ class HelloBuilder implements Builder<Hello, HelloBuilder> {
               title: title.build(),
               tags: tags.build());
     } catch (_) {
-      String _$failedField;
+      late String _$failedField;
       try {
         _$failedField = 'title';
         title.build();
@@ -267,4 +267,4 @@ class HelloBuilder implements Builder<Hello, HelloBuilder> {
   }
 }
 
-// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,lines_longer_than_80_chars,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new
+// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new

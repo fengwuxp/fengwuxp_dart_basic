@@ -32,7 +32,7 @@ abstract class QueryHelloReq implements Built<QueryHelloReq, QueryHelloReqBuilde
 
   @override
   Map<String, dynamic> toMap() {
-    return serializers.serializeWith(QueryHelloReq.serializer, this);
+    return serializers.serializeWith(QueryHelloReq.serializer, this) as Map<String, dynamic>;
   }
 
   @override
