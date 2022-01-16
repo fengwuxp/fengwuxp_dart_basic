@@ -33,7 +33,7 @@ class BuiltJsonSerializers {
       return formJson(json);
     }
     if (resultType == null) {
-      throw new ArgumentError("parameter resultType must null");
+      throw new ArgumentError("parameter resultType must not null");
     }
 
     final serializer = serializers.serializerForType(resultType);
