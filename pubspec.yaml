@@ -10,20 +10,20 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  built_collection: ^5.1.1
+  built_value: ^8.1.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   test: ^1.17.12
-  built_collection: ^5.1.1
-  built_value: ^8.1.2
   build_runner: ^2.1.2
   build_test: ^2.1.3
   # If you need to run web tests, you will also need this dependency.
   #  build_web_compilers: any
+  # For information on the generic Dart part of this file, see the
+  # following page: https://dart.dev/tools/pub/pubspec
   built_value_generator: ^8.1.2
-# For information on the generic Dart part of this file, see the
-# following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter.
 flutter:

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:built_value/serializer.dart';
-import 'package:fengwuxp_dart_basic/index.dart';
+import 'package:fengwuxp_dart_basic/src/json/json_serializable_object.dart';
 import 'package:fengwuxp_dart_basic/src/utils/string_utils.dart';
 
 /// 基于 built_value 的 json serializer
@@ -18,8 +18,8 @@ class BuiltJsonSerializers {
   /// parse json [String] or [Map] or [List] or [Set] to object
   /// [source] type [String] or  [Map] or [List] or [Set]
   /// [resultType]  结果数据类型
-  /// [formJson]    自定义的formJson 工厂方法
-  /// [specifiedType]    FullType 存在泛型时需要
+  /// [formJson]    自定义的 formJson 工厂方法
+  /// [specifiedType]  FullType 存在泛型时需要
   /// 泛型支持需要 [SerializersBuilder.addBuilderFactory]
   T? parseObject<T>(dynamic source,
       {Type? resultType, Function? formJson, FullType specifiedType = FullType.unspecified}) {
@@ -33,7 +33,11 @@ class BuiltJsonSerializers {
       return formJson(json);
     }
     if (resultType == null) {
-      throw new ArgumentError("parameter resultType must not null");
+      if (_isSpecifiedType(specifiedType)) {
+        return this.serializers.deserialize(json, specifiedType: specifiedType) as T;
+      } else {
+        throw new ArgumentError("parameter resultType is null and specifiedType is null or invalid");
+      }
     }
 
     final serializer = serializers.serializerForType(resultType);
